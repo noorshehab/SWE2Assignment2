@@ -1,4 +1,5 @@
 package com.store.customerservice;
+import com.store.customerservice.Models.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

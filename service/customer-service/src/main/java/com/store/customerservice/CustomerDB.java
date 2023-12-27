@@ -1,5 +1,4 @@
 package com.store.customerservice;
-import com.store.customerservice.Models.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,8 +8,10 @@ import java.util.Objects;
 @Service
 public class CustomerDB {
     private final List<Customer> customers;
+    private final List<Customer> loggedInCustomers;
     public CustomerDB()
     {
+        loggedInCustomers =new ArrayList<>();
         customers = new ArrayList<>();
     }
     public String addCustomer(Customer customer)
@@ -25,6 +26,19 @@ public class CustomerDB {
         return "Registered successfully";
     }
 
+    public void AddLoggedIn (Customer customer)
+    {
+        loggedInCustomers.add(customer);
+    }
+
+    public boolean isLoggedIn (int id)
+    {
+        for (Customer c: customers) {
+            if(id==c.getId())
+                return true;
+        }
+        return false;
+    }
     public boolean isRegistered(String email, String password)
     {
         for (Customer c: customers) {

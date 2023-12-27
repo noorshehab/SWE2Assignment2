@@ -23,6 +23,7 @@ public class Login extends Authentication {
         String password = customer.getPassword();
         if(db.isRegistered(email,password))
         {
+            db.AddLoggedIn(customer);
             return "Logged in successfully";
         }
         return "Wrong email or password try again ";

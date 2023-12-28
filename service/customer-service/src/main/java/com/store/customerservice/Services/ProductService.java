@@ -26,6 +26,12 @@ public class ProductService {
         return lineItem;
     }
 
+    public Product getProduct(String pid){
+        LineItem Found=productDB.searchLineItem(pid);
+        if(Found==null){return null;}
+        return Found.getProduct();
+    }
+
     // Get all LineItems in the ProductDB
     public Collection<LineItem> getAllLineItems() {
         return productDB.getAllLineItems();

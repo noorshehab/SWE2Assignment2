@@ -99,18 +99,20 @@ public class OrderService {
         }
         return "Order not found";
     }
-    public String viewAllOrders(){
-        Collection<Order> orders=orderdb.getAllOrders();
+    public Collection<Order> viewAllOrders(){
+       /* Collection<Order> orders=orderdb.getAllOrders();
         StringBuilder result = new StringBuilder();
         for (Order order : orders) {
             result.append(order.toString()).append("\n");
         }
 
-        return result.toString();
+        return result.toString();*/
+        return orderdb.getAllOrders();
     }
 
     public String CreateCompoundOrder(int custid, String Address){
         Order order=compound.createOrder(custid,Address);
+        orderdb.addOrder(order.GetChildren().iterator().next());
         orderdb.addOrder(order);
         return order.viewOrder();
     }

@@ -17,7 +17,7 @@ public class ProductController {
     public LineItem AddNewProduct(@RequestBody Product newp){
        return productService.createProduct(newp);
    }
-   @PutMapping("/updateQuantity/{serialnumber}/{newquantity}")
+   @PutMapping("Allp")
     public LineItem UpdateQuantity(@PathVariable("serialnumber") String num,@PathVariable("newquantity") int newq ){
        return productService.ChangeQuantity(num,newq);
    }

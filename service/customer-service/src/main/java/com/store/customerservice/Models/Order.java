@@ -30,4 +30,6 @@ public interface Order {
     public double getTotal();
 
     public boolean isCompound();
+    
+    
 }

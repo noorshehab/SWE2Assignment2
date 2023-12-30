@@ -1,4 +1,5 @@
 package com.store.customerservice.Models;
+package com.store.customerservice.Services.Observer;
 
 import lombok.Getter;
 
@@ -7,16 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class SimpleOrder implements Order{
+import Test.Observer;
+
+public class SimpleOrder implements Order , Subject{
     HashMap<String,LineItem>Items=new HashMap<>();
-
-
-
 
     int Customerid;
 
     int OrderID;
-
+    
+    Observer observer;
+    
     @Getter
     String Address;
 
@@ -31,6 +33,7 @@ public class SimpleOrder implements Order{
 
     public void setStatus(String status) {
         Status = status;
+        Notify();
     }
     @Override
     public int GetCustomerID(){return Customerid;}
@@ -136,5 +139,20 @@ public class SimpleOrder implements Order{
     public void removeOrder(Order order) {
 
     }
+    
+    @Override
+	public void Notify() {
+		observer.update(state, Items.values(), customer);
+	}
+	@Override
+	public void removeObserver() {
+		this.observer = null;
+	}
+	@Override
+	public void registerObserver(Observer observer) {
+		this.observer = observer;
+		
+	}
+  
 
 }

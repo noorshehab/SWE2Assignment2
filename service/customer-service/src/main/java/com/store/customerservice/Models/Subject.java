@@ -1,4 +1,5 @@
-package com.store.customerservice.Services;
+package com.store.customerservice.Services.Observer;
+package com.store.customerservice.Models;
 import org.springframework.stereotype.Service;
 
 interface Subject {

@@ -20,10 +20,14 @@ import java.util.Collection;
 
 @Service
 public class NotificationManager implements Observer{
+	
     private Queue<NotificationTemplet> templets;
+    
     NotificationTemplet temp;
+ 
     ArrayList<Channel> avilabaleChannels;
     
+    @Autowired
     NotificationManager(){
     	templets = new LinkedList<>();
     	avilabaleChannels = new ArrayList<>(2);
@@ -33,11 +37,13 @@ public class NotificationManager implements Observer{
     	templets.clear();
 	}
     
-    public Queue<NotificationTemplet> getTemplets() {
-		return templets;
-	}
 	public void setTemplets(Queue<NotificationTemplet> templets) {
 		this.templets = templets;
+	}
+	
+	@Override
+    public Queue<NotificationTemplet> getTemplets() {
+		return templets;
 	}
 	
 	@Override
@@ -50,8 +56,7 @@ public class NotificationManager implements Observer{
 		avilabaleChannels.add(email);
 		avilabaleChannels.add(sms);
 
-		Channel channel = new Email(customer.getEmail());
-		if (state == "Placement") {
+		if (state.equals("Placement")) {
 			subject = "Notification about the order placement";
 
 			content = "Hello Master " + customer.getName() + ", your booking for ";
@@ -63,7 +68,7 @@ public class NotificationManager implements Observer{
 			temp = new OrderPlacmentTemp(subject, content, avilabaleChannels, "Order Placement", "English",
 					items, customer.getName());
 		}
-		else if (state == "Shipment") {
+		else if (state.equals("Shipment")) {
 			subject = "Notification about the order Shipment";
 
 			content = "Hello Master " + customer.getName() + ", your order";

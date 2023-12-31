@@ -10,4 +10,5 @@ import org.springframework.stereotype.Service;
 @Service
 interface Observer {
 	public void update(String state, Collection<LineItem> items , Customer customer);
+	public Queue<NotificationTemplet> getTemplets();
 }

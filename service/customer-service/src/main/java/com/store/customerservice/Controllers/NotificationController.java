@@ -1,6 +1,7 @@
 package com.store.customerservice.Controllers;
 
 import com.store.customerservice.Models.NotificationTemplet;
+import com.store.customerservice.Models.Customer;
 import com.store.customerservice.Services.NotificationManager;
 import com.store.customerservice.Services.Observer;
 
@@ -14,7 +15,7 @@ public class NotificationController {
 	@Autowired
     Observer notificationManager=new NotificationManager();
 	
-	@GetMapping("/Notification")
+	@GetMapping("/Notification/AllTemplets")
 	public String show(){
 		if (!notificationManager.getTemplets().isEmpty()) {
 			StringBuilder finalString = new StringBuilder();
@@ -25,4 +26,17 @@ public class NotificationController {
 		}
 		return "No templates are Found";
     }
+	
+	@GetMapping("/Notification/MostNotifiedUser")
+	public String MostNotifiedUser() {
+		Cusomer cusomer = Observer.MostCusomerVisited();
+		String massage = "The user: " + cusomer.getName() +  ", Email and Phone number:" + cusomer.getEmail() + " / " +  cusomer.getPhoneNumber() + " is the most Notified User.\n";
+		return massage;
+	}
+	
+	@GetMapping("/Notification/MostSendedTemplet")
+	public String MostSendedTemplet() {
+		String massage = Observer.MostTempletsSend();
+		return massage;
+	}
 }

@@ -7,9 +7,9 @@ public class OrderShippmentTemp extends NotificationTemplet{
 	private String address;
 	
 	public OrderShippmentTemp(String subject, String content, ArrayList<Channel> avilabaleChannels, String type, String languagge,
-			Collection<LineItem> lineItems, String name, String address) {
+			Collection<LineItem> lineItems, String name,int CustomerID, String address) {
 		
-		super(subject, content, avilabaleChannels, type, languagge, lineItems, name);
+		super(subject, content, avilabaleChannels, type, languagge, lineItems, name, CustomerID);
 		
 		this.address = address;
 	}

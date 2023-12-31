@@ -86,7 +86,7 @@ public class NotificationManager implements Observer{
 	public void CancelTemplet(int CustomerID) {
 		ArrayList<NotificationTemplet> removeList = new ArrayList<>();
 		for (NotificationTemplet temp : templets) {
-			if (temp.getCustomerID == CustomerID) {
+			if (temp.getCustomerID() == CustomerID) {
 				removeList.add(temp);
 			}
 		}

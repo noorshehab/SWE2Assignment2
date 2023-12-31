@@ -8,24 +8,25 @@ import com.store.customerservice.Services.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 public class LogRegController {
     private Authentication auth;
 
     private CustomerDB db;
 
-    public LogRegController(Authentication auth) {
+    public LogRegController(Authentication auth, CustomerDB db) {
         this.auth = auth;
+        this.db = db;
     }
 
     @Autowired
     public void setCustomerDB(CustomerDB db) {
-        this.db = db;
+        this.db = new CustomerService();
     }
     @PostMapping("/customer/register")
     public String register(@RequestBody Customer c)
     {
-        //return db.addCustomer(c);
         auth = new Register(db);
         return auth.execute(c);
     }
@@ -39,8 +40,8 @@ public class LogRegController {
     }
 
     @GetMapping("/customer/getAll/{id}")
-    public Customer getAll(@PathVariable("id") int id)
+    public Customer getCustomer(@PathVariable("id") int id)
     {
-        return db.getAll(id);
+        return db.getCustomer(id);
     }
 }

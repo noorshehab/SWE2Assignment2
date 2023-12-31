@@ -1,5 +1,6 @@
 package com.store.customerservice.Controllers;
 
+import com.store.customerservice.CustomerService;
 import com.store.customerservice.Models.Authentication;
 import com.store.customerservice.CustomerDB;
 import com.store.customerservice.Models.Customer;

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class ProductDB {
+public class ProductDB implements database<LineItem,String>{
     private Map<String, LineItem> lineItems;
 
     public ProductDB() {
@@ -16,29 +16,28 @@ public class ProductDB {
     }
 
     // Add a LineItem to the ProductDB
-    public void addLineItem(LineItem lineItem) {
+    @Override
+    public void add(LineItem lineItem) {
         lineItems.put(lineItem.getProduct().getSerialNumber(), lineItem);
     }
 
     // Remove a LineItem from the ProductDB based on the serial number
-    public void removeLineItem(String serialNumber) {
+    @Override
+    public void remove(String serialNumber) {
         lineItems.remove(serialNumber);
     }
 
     // Search for a LineItem in the ProductDB based on the serial number
-    public LineItem searchLineItem(String serialNumber) {
+    @Override
+    public LineItem search(String serialNumber) {
         return lineItems.get(serialNumber);
     }
 
     // Change the quantity of a LineItem in the ProductDB based on the serial number
-    public void changeQuantity(String serialNumber, int newQuantity) {
-        LineItem lineItem = lineItems.get(serialNumber);
-        if (lineItem != null) {
-            lineItem.setQuantity(newQuantity);
-        }
-    }
+    @Override
 
-    public Collection<LineItem> getAllLineItems(){
+    //Get All
+    public Collection<LineItem> getAll(){
         return lineItems.values();
     }
 }

@@ -6,8 +6,8 @@ import com.store.customerservice.Models.LineItem;
 import com.store.customerservice.Models.Order;
 import com.store.customerservice.Models.Product;
 import com.store.customerservice.OrderDB;
+import com.store.customerservice.database;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -21,16 +21,16 @@ public class OrderService {
 
     private OrderAssembly simple=new SimpleOrderAssembly();
     private OrderAssembly compound=new CompoundOrderAssembly();
-    private OrderDB orderdb=new OrderDB();
+    private database<Order,Integer> orderdb=new OrderDB();
 
     //makeOrderforCustomer
     public String CreateOrder(int custid, String Address){
-        //Customer customer=customerDB.getAll(custid);
+        //Customer customer=customerDB.getCustomer(custid);
         //if(customer!=null){
         Order neworder= simple.createOrder(custid,Address);
-        orderdb.addOrder(neworder);
+        orderdb.add(neworder);
         return neworder.viewOrder();
-       // }
+        //}
         //return "Customer not found ";
     }
     public String AddItem(int oid,String pid,int quantity){
@@ -42,7 +42,7 @@ public class OrderService {
             return "Not Enough product In inventory";
         }
         LineItem toadd=new LineItem(found,quantity);
-        Order tob=orderdb.searchOrder(oid);
+        Order tob=orderdb.search(oid);
         if(tob==null){
             return "Order Not Found";
         }
@@ -50,7 +50,7 @@ public class OrderService {
         return tob.viewOrder();
     }
     public String RemoveItem(int oid,String pid){
-        Order tob=orderdb.searchOrder(oid);
+        Order tob=orderdb.search(oid);
         if(tob==null){
             return "Could not find Order";
         }
@@ -60,7 +60,7 @@ public class OrderService {
     }
     public String ChangeQuantity(int oid,String pid,int quantity){
         //check that quantity is available
-        Order tob=orderdb.searchOrder(oid);
+        Order tob=orderdb.search(oid);
         if(tob==null){
             return "Could not find Order";
         }
@@ -69,11 +69,11 @@ public class OrderService {
         return "Product Not In order";
     }
     public String AddorderToCompound(int CID,int SID){
-        Order compound = orderdb.searchOrder(CID);
+        Order compound = orderdb.search(CID);
         if(compound==null){
             return "Compound Order doesnt exist";
         }
-        Order simple = orderdb.searchOrder(SID);
+        Order simple = orderdb.search(SID);
         if(simple==null){
             return "Order to add doesnt exist";
         }
@@ -81,11 +81,11 @@ public class OrderService {
         return compound.viewOrder();
     }
     public String RemoveorderFromCompound(int CID,int SID){
-        Order compound = orderdb.searchOrder(CID);
+        Order compound = orderdb.search(CID);
         if(compound==null){
             return "Compound Order doesnt exist";
         }
-        Order simple = orderdb.searchOrder(SID);
+        Order simple = orderdb.search(SID);
         if(simple==null){
             return "Order to add doesnt exist";
         }
@@ -93,7 +93,7 @@ public class OrderService {
         return compound.viewOrder();
     }
     public String LookUpOrder(int id){
-        Order order=orderdb.searchOrder(id);
+        Order order=orderdb.search(id);
         if(order!=null){
             return order.viewOrder();
         }
@@ -107,13 +107,13 @@ public class OrderService {
         }
 
         return result.toString();*/
-        return orderdb.getAllOrders();
+        return orderdb.getAll();
     }
 
     public String CreateCompoundOrder(int custid, String Address){
         Order order=compound.createOrder(custid,Address);
-        orderdb.addOrder(order.GetChildren().iterator().next());
-        orderdb.addOrder(order);
+        orderdb.add(order.GetChildren().iterator().next());
+        orderdb.add(order);
         return order.viewOrder();
     }
     //CheckoutOrder

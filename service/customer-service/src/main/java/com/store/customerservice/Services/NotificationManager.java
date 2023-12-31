@@ -12,6 +12,7 @@ import com.store.customerservice.Models.Email;
 import com.store.customerservice.Models.OrderShippmentTemp;
 import com.store.customerservice.Models.OrderPlacmentTemp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Collection;
 
-
+@Service
 public class NotificationManager implements Observer{
 	@Autowired
 	CustomerService customerService;
@@ -31,7 +32,7 @@ public class NotificationManager implements Observer{
 
     
 
-    NotificationManager(){
+    public NotificationManager(){
     	templets = new LinkedList<>();
     	avilabaleChannels = new ArrayList<>(2);
     }

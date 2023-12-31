@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OrderDB {
+public class OrderDB implements database<Order,Integer> {
     private Map<Integer, Order> orders;
 
     public OrderDB() {
@@ -14,22 +14,26 @@ public class OrderDB {
     }
 
     // Add an order to the OrderDB
-    public void addOrder(Order order) {
+   @Override
+    public void add(Order order) {
         orders.put(order.getCode(), order);
     }
 
     // Remove an order from the OrderDB based on the code
-    public void removeOrder(int code) {
+    @Override
+    public void remove(Integer code) {
         orders.remove(code);
     }
 
     // Search for an order in the OrderDB based on the code
-    public Order searchOrder(int code) {
+    @Override
+    public Order search(Integer code) {
         return orders.get(code);
     }
 
     // Get all orders in the OrderDB
-    public Collection<Order> getAllOrders() {
+    @Override
+    public Collection<Order> getAll() {
         return orders.values();
     }
 }

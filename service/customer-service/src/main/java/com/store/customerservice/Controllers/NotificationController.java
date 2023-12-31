@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class NotificationController {
 	@Autowired
-    Observer notificationManager;
+    Observer notificationManager=new NotificationManager();
 	
 	@GetMapping("/Notification")
 	public String show(){

@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Collection;
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotificationManager implements Observer{
 	@Autowired
@@ -29,11 +30,46 @@ public class NotificationManager implements Observer{
  
     ArrayList<Channel> avilabaleChannels;
 
+    //CusomerId, # of time
+    Map<Integer, Integer> Visitors;
+    //CustomerID, Templtes
+    Map<Integer, ArrayList<NotificationTemplet>> TempletVistors;
     
-
     NotificationManager(){
     	templets = new LinkedList<>();
     	avilabaleChannels = new ArrayList<>(2);
+    	TempletVistors = new HashMap<>();
+    	Visitors = new HashMap<>();
+    }
+    
+    //return CustomerId
+    private int findMostUserIDVisited() {
+
+        int maxValue = Integer.MIN_VALUE;
+        int Target;
+        for (Map.Entry<Integer, Integer> entry : Visitors.entrySet()) {
+            if (entry.getValue() > maxValue) {
+            	Target = entry.getKey();
+            	maxValue = entry.getValue();
+            }
+        }
+
+        return Target;
+    }
+    
+    public Customer MostCusomerVisited() {
+    	int CustomerID = findMostUserIDVisited();
+    	Customer customer= customerService.getCustomer(CustomerID);
+    	return customer;
+    }
+    
+    public String MostTempletsSend() {
+    	int CustomerID = findMostUserIDVisited();
+    	String Massage = "";
+    	for (NotificationTemplet tp : TempletVistors[CustomerID]) {
+    		Massage += tp.getContent();
+    	}
+    	return Massage;
     }
     
     public void removeTemplets() {
@@ -42,6 +78,18 @@ public class NotificationManager implements Observer{
     
 	public void setTemplets(Queue<NotificationTemplet> templets) {
 		this.templets = templets;
+	}
+	
+	public void CancelTemplet(int CustomerID) {
+		ArrayList<NotificationTemplet> removeList = new ArrayList<>();
+		for (NotificationTemplet temp : templets) {
+			if (temp.getCustomerID == CustomerID) {
+				removeList.add(temp);
+			}
+		}
+		for (NotificationTemplet temp : templets) {
+			templets.remove(temp);
+		}
 	}
 	
 	@Override
@@ -69,7 +117,7 @@ public class NotificationManager implements Observer{
 			content += "is confirmed. Thanks for using our store (:\n";
 
 			temp = new OrderPlacmentTemp(subject, content, avilabaleChannels, "Order Placement", "English",
-					items, customer.getName());
+					items, customer.getName(), CustomerID);
 		}
 		else if (state.equals("Shipment")) {
 			subject = "Notification about the order Shipment";
@@ -81,7 +129,7 @@ public class NotificationManager implements Observer{
 			content += " is shipping now to " + customer.getAddress() + ". Thanks for using our store (:\n";
 
 			temp = new OrderShippmentTemp(subject, content, avilabaleChannels, "Order Shipment", "English",
-					items, customer.getName(), customer.getAddress());
+					items, customer.getName(), CustomerID, customer.getAddress());
 		}
 		else {
 			throw new RuntimeException("Error");
@@ -89,7 +137,25 @@ public class NotificationManager implements Observer{
 		if (templets.size() == 8) {
 			removeTemplets();
 		}
+		
 		templets.add(temp);
+		
+		if (Visitors.containsKey(CustomerID)) {
+			int currentValue = Visitors.get(CustomerID);
+            int newValue = currentValue + 1;
+            Visitors.put(CustomerID, newValue);
+            
+            if (TempletVistors.get(CustomerID) < 2) {
+            	TempletVistors.get(CustomerID).add(temp);
+            }
+		} else {
+            Visitors.put(CustomerID, 1);
+            TempletVistors.put(CustomerID, new ArrayList<>(2));
+			TempletVistors.get(CustomerID).add(temp);
+		}
+		
+		
+		
 	}
 
 }

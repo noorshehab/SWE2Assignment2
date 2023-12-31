@@ -26,7 +26,7 @@ import java.util.Map;
 @Service
 public class NotificationManager implements Observer{
 	@Autowired
-	CustomerService customerService;
+	CustomerService customerService=new CustomerService();
     private Queue<NotificationTemplet> templets;
     
     NotificationTemplet temp;
@@ -105,6 +105,8 @@ public class NotificationManager implements Observer{
 		String subject;
 		String content;
 		Customer customer= customerService.getCustomer(CustomerID);
+		if(customer==null)
+			return;
 		Channel email = new Email(customer.getEmail());
 		Channel sms = new SMS(customer.getPhoneNumber());
 		avilabaleChannels.add(email);

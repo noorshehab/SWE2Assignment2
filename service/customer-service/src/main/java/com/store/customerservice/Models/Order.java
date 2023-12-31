@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-public interface Order {
+public interface Order  {
 
     public  String viewOrder();
     public Collection<Order> GetChildren();

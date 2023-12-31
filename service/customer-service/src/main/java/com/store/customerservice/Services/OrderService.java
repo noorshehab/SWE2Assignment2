@@ -19,6 +19,7 @@ public class OrderService {
     @Autowired
     CustomerDB customerDB;
 
+
     private OrderAssembly simple=new SimpleOrderAssembly();
     private OrderAssembly compound=new CompoundOrderAssembly();
     private database<Order,Integer> orderdb=new OrderDB();
@@ -28,6 +29,7 @@ public class OrderService {
         //Customer customer=customerDB.getCustomer(custid);
         //if(customer!=null){
         Order neworder= simple.createOrder(custid,Address);
+
         orderdb.add(neworder);
         return neworder.viewOrder();
         //}
@@ -119,5 +121,11 @@ public class OrderService {
     //CheckoutOrder
     //ShipOrder
     //CancelOrder
+    /*public String CancelOrder(int OrderId){
+        Order order=orderdb.search(OrderId);
+        if(order!=null){
+
+        }
+    }*/
 
 }

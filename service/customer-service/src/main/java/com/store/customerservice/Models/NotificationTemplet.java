@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-@Service
+
 public abstract class NotificationTemplet {
 	private String subject;
 	private String content;
@@ -15,8 +15,7 @@ public abstract class NotificationTemplet {
 	private String name;
 	private int CustomerID;
 	
-	public NotificationTemplet(String subject, String content, ArrayList<Channel> avilabaleChannels, String type, String languagge,
-			Collection<LineItem> lineItems, String name, int CustomerID) {
+	public NotificationTemplet(String subject, String content, ArrayList<Channel> avilabaleChannels, String type, String languagge, Collection<LineItem> lineItems, String name, int CustomerID) {
 		this.subject = subject;
 		this.content = content;
 		this.avilabaleChannels = avilabaleChannels;
@@ -25,6 +24,9 @@ public abstract class NotificationTemplet {
 		this.lineItems = lineItems;
 		this.name = name;
 		this.CustomerID = CustomerID;
+	}
+	public String getType() {
+		return type;
 	}
 
 	public String getContent() {

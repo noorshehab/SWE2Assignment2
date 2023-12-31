@@ -82,15 +82,27 @@ public class NotificationManager implements Observer{
 	public void setTemplets(Queue<NotificationTemplet> templets) {
 		this.templets = templets;
 	}
-	
-	public void CancelTemplet(int CustomerID) {
+
+
+	public void CancelOrder(int CustomerID) {
 		ArrayList<NotificationTemplet> removeList = new ArrayList<>();
 		for (NotificationTemplet temp : templets) {
 			if (temp.getCustomerID() == CustomerID) {
 				removeList.add(temp);
 			}
 		}
+		for (NotificationTemplet temp : removeList) {
+			templets.remove(temp);
+		}
+	}
+	public void CancelShipping(int CustomerID) {
+		ArrayList<NotificationTemplet> removeList = new ArrayList<>();
 		for (NotificationTemplet temp : templets) {
+			if (temp.getCustomerID() == CustomerID && temp.getType().equals("Order Shipment")) {
+				removeList.add(temp);
+			}
+		}
+		for (NotificationTemplet temp : removeList) {
 			templets.remove(temp);
 		}
 	}

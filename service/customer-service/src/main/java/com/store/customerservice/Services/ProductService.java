@@ -13,9 +13,17 @@ import java.util.UUID;
 @Service
 public class ProductService {
     database<LineItem,String> productDB;
+    private static ProductService Instance;
+    public static ProductService getInstance(){
+        if(Instance==null){
+            Instance=new ProductService();
+        }
+        return Instance;
+    }
+
 
     public ProductService() {
-        this.productDB = new ProductDB();
+        productDB=new ProductDB();
     }
 
     // Create a new product with a randomly generated serial number

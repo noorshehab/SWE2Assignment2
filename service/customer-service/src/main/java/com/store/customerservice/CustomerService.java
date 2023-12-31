@@ -9,6 +9,13 @@ import java.util.List;
 public class CustomerService implements CustomerDB {
     private final List<Customer> customers;
     private final List<Customer> loggedInCustomers;
+    private static CustomerService Instance;
+    public static CustomerService getInstance(){
+        if(Instance==null){
+            Instance=new CustomerService();
+        }
+        return Instance;
+    }
     public CustomerService()
     {
         loggedInCustomers =new ArrayList<>();
@@ -23,7 +30,7 @@ public class CustomerService implements CustomerDB {
             }
 
         customers.add(customer);
-        return "Registered successfully";
+        return customer.toString();
     }
 
     @Override

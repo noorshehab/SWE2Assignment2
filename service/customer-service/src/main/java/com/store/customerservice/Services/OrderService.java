@@ -1,6 +1,7 @@
 package com.store.customerservice.Services;
 
 import com.store.customerservice.CustomerDB;
+import com.store.customerservice.CustomerService;
 import com.store.customerservice.Models.Customer;
 import com.store.customerservice.Models.LineItem;
 import com.store.customerservice.Models.Order;
@@ -15,25 +16,22 @@ import java.util.Collection;
 @Service
 public class OrderService {
     @Autowired
-    ProductService productService;
-    @Autowired
-    CustomerDB customerDB;
-
-
+    ProductService productService=ProductService.getInstance();
+    private CustomerDB customerDB= CustomerService.getInstance();
     private OrderAssembly simple=new SimpleOrderAssembly();
     private OrderAssembly compound=new CompoundOrderAssembly();
-    private database<Order,Integer> orderdb=new OrderDB();
+    private database<Order,Integer> orderdb= OrderDB.getInstance();
 
     //makeOrderforCustomer
     public String CreateOrder(int custid, String Address){
-        //Customer customer=customerDB.getCustomer(custid);
-        //if(customer!=null){
+        Customer customer=customerDB.getCustomer(custid);
+        if(customer!=null){
         Order neworder= simple.createOrder(custid,Address);
 
         orderdb.add(neworder);
         return neworder.viewOrder();
-        //}
-        //return "Customer not found ";
+        }
+        return "Customer not found ";
     }
     public String AddItem(int oid,String pid,int quantity){
         Product found=productService.getProduct(pid);

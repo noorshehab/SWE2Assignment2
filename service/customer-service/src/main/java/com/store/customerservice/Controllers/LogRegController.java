@@ -23,7 +23,7 @@ public class LogRegController {
 
     @Autowired
     public void setCustomerDB(CustomerDB db) {
-        this.db = new CustomerService();
+        this.db = CustomerService.getInstance();
     }
     @PostMapping("/customer/register")
     public String register(@RequestBody Customer c)

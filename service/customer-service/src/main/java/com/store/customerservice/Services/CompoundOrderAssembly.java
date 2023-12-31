@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 @Service
 public class CompoundOrderAssembly implements OrderAssembly {
-    @Autowired
-    SimpleOrderAssembly simple;
+
+    SimpleOrderAssembly simple= new SimpleOrderAssembly();
 
     @Override
     public Order createOrder(int CustID,String Address) {

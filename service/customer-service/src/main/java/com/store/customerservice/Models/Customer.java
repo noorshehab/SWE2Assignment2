@@ -1,5 +1,7 @@
 package com.store.customerservice.Models;
 
+import java.util.Random;
+
 public class Customer {
     private int id;
     private String name, address, email, phoneNumber, password;
@@ -9,6 +11,8 @@ public class Customer {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        Random random =new Random();
+        this.id= random.nextInt(0,99999999);
     }
     public String getName() {
         return name;
@@ -56,5 +60,16 @@ public class Customer {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

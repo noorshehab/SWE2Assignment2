@@ -7,7 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OrderDB implements database<Order,Integer> {
+    private static OrderDB Instance;
+
     private Map<Integer, Order> orders;
+
+    public static OrderDB getInstance() {
+        if(Instance==null){
+            Instance=new OrderDB();
+        }
+        return Instance;
+    }
 
     public OrderDB() {
         this.orders = new HashMap<>();

@@ -1,16 +1,16 @@
 package com.store.customerservice.Models;
-package com.store.customerservice.Services.Observer;
+import com.store.customerservice.Services.Observer;
 
+import com.store.customerservice.Services.Observer;
 import lombok.Getter;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import Test.Observer;
 
-public class SimpleOrder implements Order , Subject{
+
+public class SimpleOrder implements Order, Subject {
     HashMap<String,LineItem>Items=new HashMap<>();
 
     int Customerid;
@@ -142,7 +142,7 @@ public class SimpleOrder implements Order , Subject{
     
     @Override
 	public void Notify() {
-		observer.update(state, Items.values(), customer);
+		observer.update(Status, Items.values(), Customerid);
 	}
 	@Override
 	public void removeObserver() {

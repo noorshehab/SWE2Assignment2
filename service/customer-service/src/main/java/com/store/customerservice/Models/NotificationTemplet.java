@@ -1,8 +1,10 @@
 package com.store.customerservice.Models;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Collection;
-
+@Service
 public abstract class NotificationTemplet {
 	private String subject;
 	private String content;

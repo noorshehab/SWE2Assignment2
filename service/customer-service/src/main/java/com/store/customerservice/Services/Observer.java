@@ -1,14 +1,14 @@
 package com.store.customerservice.Services;
 
-import com.store.customerservice.Models.Customer;
-import com.store.customerservice.Models.LineItem;
-import com.store.customerservice.Models.Order;
-import com.store.customerservice.Models.Product;
+import com.store.customerservice.Models.*;
+
 import java.util.Collection;
+import java.util.Queue;
+
 import org.springframework.stereotype.Service;
 
 @Service
-interface Observer {
-	public void update(String state, Collection<LineItem> items , Customer customer);
+public interface Observer {
+	public void update(String state, Collection<LineItem> items , int CustomerId);
 	public Queue<NotificationTemplet> getTemplets();
 }

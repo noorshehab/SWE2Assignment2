@@ -1,9 +1,9 @@
 package com.store.customerservice.Services;
 
+import com.store.customerservice.CustomerService;
 import com.store.customerservice.Models.Customer;
 import com.store.customerservice.Models.LineItem;
-import com.store.customerservice.Models.Order;
-import com.store.customerservice.Models.Product;
+
 
 import com.store.customerservice.Models.NotificationTemplet;
 import com.store.customerservice.Models.Channel;
@@ -11,23 +11,26 @@ import com.store.customerservice.Models.SMS;
 import com.store.customerservice.Models.Email;
 import com.store.customerservice.Models.OrderShippmentTemp;
 import com.store.customerservice.Models.OrderPlacmentTemp;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Collection;
 
-@Service
+
 public class NotificationManager implements Observer{
-	
+	@Autowired
+	CustomerService customerService;
     private Queue<NotificationTemplet> templets;
     
     NotificationTemplet temp;
  
     ArrayList<Channel> avilabaleChannels;
+
     
-    @Autowired
+
     NotificationManager(){
     	templets = new LinkedList<>();
     	avilabaleChannels = new ArrayList<>(2);
@@ -47,10 +50,10 @@ public class NotificationManager implements Observer{
 	}
 	
 	@Override
-	public void update(String state, Collection<LineItem> items , Customer customer) {
+	public void update(String state, Collection<LineItem> items , int CustomerID) {
 		String subject;
 		String content;
-		
+		Customer customer= customerService.getCustomer(CustomerID);
 		Channel email = new Email(customer.getEmail());
 		Channel sms = new SMS(customer.getPhoneNumber());
 		avilabaleChannels.add(email);
@@ -59,7 +62,7 @@ public class NotificationManager implements Observer{
 		if (state.equals("Placement")) {
 			subject = "Notification about the order placement";
 
-			content = "Hello Master " + customer.getName() + ", your booking for ";
+			content = "Hello " + customer.getName() + ", your booking for ";
 			for (LineItem item : items) {
 			    content += item.getProduct().getName() + " ";
 			}
@@ -81,7 +84,7 @@ public class NotificationManager implements Observer{
 					items, customer.getName(), customer.getAddress());
 		}
 		else {
-			throw new RuntimeException("Erorr");
+			throw new RuntimeException("Error");
 		}
 		if (templets.size() == 8) {
 			removeTemplets();

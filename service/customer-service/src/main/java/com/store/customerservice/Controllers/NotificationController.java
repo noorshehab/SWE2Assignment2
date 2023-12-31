@@ -12,16 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class NotificationController {
 	@Autowired
-    private Observer notificationManager; //= new NotificationManager();
+    Observer notificationManager;
 	
 	@GetMapping("/Notification")
 	public String show(){
-		if (!notificationManager.getTemplets().isEmpity()) {
-	    	for (NotificationTemplet temp : notificationManager.getTemplets()) {
-	            return temp.getContent();
-	        }
-		} else {
-			return "No templets are Found";
+		if (!notificationManager.getTemplets().isEmpty()) {
+			StringBuilder finalString = new StringBuilder();
+			for (NotificationTemplet temp : notificationManager.getTemplets()) {
+				finalString.append(temp.getContent());
+			}
+			return finalString.toString();
 		}
+		return "No templates are Found";
     }
 }

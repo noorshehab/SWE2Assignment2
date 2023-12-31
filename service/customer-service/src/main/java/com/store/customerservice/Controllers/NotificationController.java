@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class NotificationController {
 	@Autowired
-    Observer notificationManager=new NotificationManager();
+    NotificationManager notificationManager;
 	
 	@GetMapping("/Notification/AllTemplets")
 	public String show(){
@@ -29,14 +29,14 @@ public class NotificationController {
 	
 	@GetMapping("/Notification/MostNotifiedUser")
 	public String MostNotifiedUser() {
-		Cusomer cusomer = Observer.MostCusomerVisited();
-		String massage = "The user: " + cusomer.getName() +  ", Email and Phone number:" + cusomer.getEmail() + " / " +  cusomer.getPhoneNumber() + " is the most Notified User.\n";
+		Customer customer = notificationManager.MostCusomerVisited();
+		String massage = "The user: " + customer.getName() +  ", Email and Phone number:" + customer.getEmail() + " / " +  customer.getPhoneNumber() + " is the most Notified User.\n";
 		return massage;
 	}
 	
 	@GetMapping("/Notification/MostSendedTemplet")
 	public String MostSendedTemplet() {
-		String massage = Observer.MostTempletsSend();
-		return massage;
+		String message = notificationManager.MostTempletsSend();
+		return message;
 	}
 }

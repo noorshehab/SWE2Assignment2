@@ -38,7 +38,7 @@ public class NotificationManager implements Observer{
     //CustomerID, Templtes
     Map<Integer, ArrayList<NotificationTemplet>> TempletVistors;
     
-    NotificationManager(){
+    public NotificationManager(){
     	templets = new LinkedList<>();
     	avilabaleChannels = new ArrayList<>(2);
     	TempletVistors = new HashMap<>();
@@ -69,7 +69,7 @@ public class NotificationManager implements Observer{
     public String MostTempletsSend() {
     	int CustomerID = findMostUserIDVisited();
     	String Massage = "";
-    	for (NotificationTemplet tp : TempletVistors[CustomerID]) {
+    	for (NotificationTemplet tp : TempletVistors.get(CustomerID)) {
     		Massage += tp.getContent();
     	}
     	return Massage;
@@ -119,8 +119,7 @@ public class NotificationManager implements Observer{
 			}
 			content += "is confirmed. Thanks for using our store (:\n";
 
-			temp = new OrderPlacmentTemp(subject, content, avilabaleChannels, "Order Placement", "English",
-					items, customer.getName());
+			temp = new OrderPlacmentTemp(subject, content, avilabaleChannels, "Order Placement", "English", items, CustomerID, customer.getName());
 		}
 		else if (state.equals("Shipment")) {
 			subject = "Notification about the order Shipment";
@@ -132,7 +131,7 @@ public class NotificationManager implements Observer{
 			content += " is shipping now to " + customer.getAddress() + ". Thanks for using our store (:\n";
 
 			temp = new OrderShippmentTemp(subject, content, avilabaleChannels, "Order Shipment", "English",
-					items, customer.getName(), customer.getAddress());
+					items, customer.getName(), CustomerID,customer.getAddress());
 		}
 		else {
 			throw new RuntimeException("Error");
@@ -148,7 +147,7 @@ public class NotificationManager implements Observer{
             int newValue = currentValue + 1;
             Visitors.put(CustomerID, newValue);
 
-            if (TempletVistors.get(CustomerID) < 2) {
+            if (TempletVistors.get(CustomerID).size() < 2) {
             	TempletVistors.get(CustomerID).add(temp);
             }
 		} else {
